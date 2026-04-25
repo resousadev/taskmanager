@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id("io.freefair.lombok") version "9.4.0"
 }
 
 group = 'dio'
@@ -25,4 +26,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Configurações para ignorar opções de VM não reconhecidas e redirecionar erros para /dev/null
+test {
+    jvmArgs = [
+        '-XX:+IgnoreUnrecognizedVMOptions',
+        '-XX:ErrorFile=/dev/null'
+    ]
 }
