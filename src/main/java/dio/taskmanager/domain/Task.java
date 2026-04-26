@@ -23,5 +23,10 @@ public class Task {
         this.status = TaskStatus.PENDING;
     }
 
+    public void update(Optional<String> title, Optional<String> description, Optional<TaskStatus> status) {
+        title.ifPresent(this::setTitle);
+        description.ifPresent(d -> this.description = Optional.ofNullable(d));
+        status.ifPresent(this::setStatus);
+    }
 }
 
