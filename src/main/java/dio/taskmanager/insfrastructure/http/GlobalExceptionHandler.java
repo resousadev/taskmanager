@@ -1,8 +1,10 @@
 package dio.taskmanager.insfrastructure.http;
 
 import dio.taskmanager.domain.TaskNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,22 +17,20 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<String> handleTaskNotFoundException(final TaskNotFoundException ex) {
-        return ResponseEntity.status(404).body(ex.getMessage());
+    public ResponseEntity<String> handleTaskNotFoundException(final TaskNotFoundException exception) {
+        return ResponseEntity.status(404).body(exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidationException(final MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationException(final MethodArgumentNotValidException exception) {
 
-        Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(
-                        error -> error.getField(),
-                        error -> error.getDefaultMessage(),
-                        (existing, replacement) -> existing
-                ));
-
-        return errors;
+    return exception.getBindingResult().getFieldErrors().stream()
+        .collect(Collectors.toMap(
+            FieldError::getField,
+            DefaultMessageSourceResolvable::getDefaultMessage,
+            (existing, replacement) -> existing
+        ));
     }
 
 }
