@@ -2,11 +2,10 @@ package dio.taskmanager.application;
 
 import dio.taskmanager.application.input.UpdateTaskInput;
 import dio.taskmanager.application.output.TaskOutput;
-import dio.taskmanager.domain.Task;
-import dio.taskmanager.domain.TaskId;
-import dio.taskmanager.domain.TaskNotFoundException;
-import dio.taskmanager.domain.TaskRepository;
+import dio.taskmanager.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UpdateTaskUseCase {
