@@ -6,6 +6,7 @@ import dio.taskmanager.domain.TaskId;
 import dio.taskmanager.insfrastructure.http.request.CreateTaskRequest;
 import dio.taskmanager.insfrastructure.http.request.UpdateTaskRequest;
 import dio.taskmanager.insfrastructure.http.response.TaskResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class TaskController {
     private final UpdateTaskUseCase updateTaskUseCase;
 
     @PostMapping
-    public TaskResponse createTask(@RequestBody CreateTaskRequest request) {
+    public TaskResponse createTask(@RequestBody @Valid CreateTaskRequest request) {
         var input = request.toInput();
         TaskOutput output = createTaskUseCase.execute(input);
         return TaskResponse.from(output);
